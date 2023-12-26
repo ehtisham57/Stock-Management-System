@@ -11,9 +11,9 @@ const client = new MongoClient(uri);
     const database = client.db('stock');
     const inventory = database.collection('inventory');
     const query = {};
-    const allproduct = await inventory.find(query).toArray();
-    console.log(allproduct);
-    return NextResponse.json({allproduct})
+    const products = await inventory.find(query).toArray();
+    console.log(products);
+    return NextResponse.json({success :true ,  products})
   } finally {
     await client.close();
   };
@@ -24,7 +24,8 @@ const client = new MongoClient(uri);
 ////post Api
 
 export async function POST(request) {
-    let body  = request.body
+    let body  =await request.json()
+    console.log(body);
     const uri = "mongodb+srv://inventory:Balkhi11@cluster0.efcsf.mongodb.net/";
     const client = new MongoClient(uri);
          {
@@ -33,8 +34,8 @@ export async function POST(request) {
         const inventory = database.collection('inventory');
         const query = {};
         const product = await inventory.insertOne(body);
-        console.log(allproduct);
-        return NextResponse.json({product})
+        console.log(product);
+        return NextResponse.json({product, ok: true})
       } finally {
         await client.close();
       };
